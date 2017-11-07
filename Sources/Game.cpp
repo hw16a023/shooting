@@ -26,6 +26,8 @@ void Start()
     targetRect = Rect(80, -140, 40, 40);
     bulletPos.x = -999;
     score = 0;
+    
+    PlayBGM("bgm_maoudamashii_8bit07.mp3");
 }
 
 // 1/60秒ごとに呼ばれる関数です。モデルの更新と画面の描画を行います。
@@ -68,8 +70,8 @@ void Update()
     FillRect(targetRect, Color::red);
 
     // スコアの描画
-    SetFont("nicoca_v1.ttf", 20.0f);
-    DrawText(FormatString("%02d", score), Vector2(-319, 199), Color::black);
-    DrawText(FormatString("%02d", score), Vector2(-320, 200), Color::white);
+    SetFont("nicoca_v1.ttf", 80.0f);
+    DrawText(FormatString("%02d", score), Vector2(-319, 169), Color::black);
+    DrawText(FormatString("%02d", score), Vector2(-320, 170), Color::white);
 }
 
