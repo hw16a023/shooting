@@ -33,14 +33,20 @@ void Start()
 // 1/60秒ごとに呼ばれる関数です。モデルの更新と画面の描画を行います。
 void Update()
 {
+    //大砲の上下移動
+    if (cannonPos.y > -999) {
+        cannonPos.y += 1000 * Time::deltaTime;
+        
+    }
     // 弾の発射
     if (bulletPos.x <= -999 && Input::GetKeyDown(KeyMask::Space)) {
         bulletPos = cannonPos + Vector2(50, 10);
+        PlaySound("se_maoudamashii_explosion03.mp3");
     }
 
     // 弾の移動
     if (bulletPos.x > -999) {
-        bulletPos.x += 10 * Time::deltaTime;
+        bulletPos.x += 1000 * Time::deltaTime;
 
         // ターゲットと弾の当たり判定
         Rect bulletRect(bulletPos, Vector2(32, 20));
@@ -48,7 +54,8 @@ void Update()
             score += 1;         // スコアの加算
             bulletPos.x = -999; // 弾を発射可能な状態に戻す
         }
-    }
+        PlaySound("se_maoudamashii_explosion06.mp3");
+     }
 
     // 背景の描画
     Clear(Color::cyan);
