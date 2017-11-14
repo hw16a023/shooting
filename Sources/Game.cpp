@@ -5,9 +5,9 @@
 // TODO: 雲の位置を左から右に動かす。見えなくなったら左端に戻す。(B)
 // TODO: 砲台を青い壁に沿って上下に動かす。(C)
 // TODO: 弾のスピードを速くし、弾が画面右端を通り越したら再度発射可能にする。(D)
-// TODO: スコアのサイズを大きくする。(E)
+// TODO: スコアのサイズを大きくする。(E) (実装:hw16a023 上垣翔真)
 // TODO: スコアを100点ずつ加算するようにし、5桁の表示に変える。(F)
-// TODO: PlayBGM()関数を使って、BGMを再生する。(G)
+// TODO: PlayBGM()関数を使って、BGMを再生する。(G) (実装:hw16a023 上垣翔真)
 // TODO: PlaySE()関数を使って、弾の発射時とターゲットに当たった時にSEを再生する。(H)
 
 
@@ -24,6 +24,9 @@ void Start()
     cloudPos = Vector2(-320, 100);
     cannonPos = Vector2(-160, -150);
     targetRect = Rect(160, -140, 40, 40);
+    cloudPos = Vector2(-550, 100);
+    cannonPos = Vector2(-80, -150);
+    targetRect = Rect(80, -140, 40, 40);
     bulletPos.x = -999;
     score = 0;
     
@@ -35,7 +38,7 @@ void Update()
 {
     //大砲の上下移動
     if (cannonPos.y > -999) {
-        cannonPos.y += 1000 * Time::deltaTime;
+        cannonPos.y += 100 * Time::deltaTime;
         
     }
     // 弾の発射
@@ -46,16 +49,21 @@ void Update()
 
     // 弾の移動
     if (bulletPos.x > -999) {
-        bulletPos.x += 1000 * Time::deltaTime;
+        bulletPos.x += 100 * Time::deltaTime;
+        bulletPos.x += 600 * Time::deltaTime;
 
         // ターゲットと弾の当たり判定
         Rect bulletRect(bulletPos, Vector2(32, 20));
         if (targetRect.Overlaps(bulletRect)) {
-            score += 1;         // スコアの加算
+            score += 100;         // スコアの加算
             bulletPos.x = -999; // 弾を発射可能な状態に戻す
         }
         PlaySound("se_maoudamashii_explosion06.mp3");
      }
+        if (bulletPos.x >= 350) {
+            bulletPos.x = -999;
+        }
+    }
 
     // 背景の描画
     Clear(Color::cyan);
@@ -63,6 +71,16 @@ void Update()
 
     // 雲の描画
     DrawImage("cloud1.png", cloudPos);
+    
+    // 雲の移動
+    if (cloudPos.x <= 350 ) {
+        cloudPos.x += 100 * Time::deltaTime;
+        
+        if (cloudPos.x >= 350) {
+            cloudPos.x = -550;
+        }
+    }
+
 
     // 弾の描画
     if (bulletPos.x > -999) {
@@ -78,7 +96,7 @@ void Update()
 
     // スコアの描画
     SetFont("nicoca_v1.ttf", 80.0f);
-    DrawText(FormatString("%02d", score), Vector2(-319, 169), Color::black);
-    DrawText(FormatString("%02d", score), Vector2(-320, 170), Color::white);
+    DrawText(FormatString("%05d", score), Vector2(-319, 169), Color::black);
+    DrawText(FormatString("%05d", score), Vector2(-320, 170), Color::white);
 }
 
