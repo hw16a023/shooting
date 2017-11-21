@@ -37,8 +37,8 @@ void Start()
 void Update()
 {
     //大砲の上下移動
-    if (cannonPos.y > -999) {
-        cannonPos.y += 100 * Time::deltaTime;
+    if (cannonPos.y < 100) {
+        cannonPos.y +=  * Time::deltaTime;
         
     }
     // 弾の発射
