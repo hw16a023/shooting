@@ -16,7 +16,7 @@ Vector2 cannonPos;      //!< 砲台の位置
 Vector2 bulletPos;      //!< 弾の位置
 Rect    targetRect;     //!< ターゲットの矩形
 int     score;          //!< スコア
-
+bool    barrel;         
 
 // ゲーム開始時に呼ばれる関数です。
 void Start()
@@ -37,9 +37,17 @@ void Start()
 void Update()
 {
     //大砲の上下移動
-    if (cannonPos.y < 100) {
-        cannonPos.y +=  * Time::deltaTime;
-        
+    if (barrel == true) {
+        cannonPos.y += 1;
+        if (cannonPos.y > -70) {
+            barrel = false;
+        }
+    }
+    if (barrel == false) {
+        cannonPos.y -= 1;
+        if (cannonPos.y < -145) {
+            barrel = true;
+        }
     }
     // 弾の発射
     if (bulletPos.x <= -999 && Input::GetKeyDown(KeyMask::Space)) {
